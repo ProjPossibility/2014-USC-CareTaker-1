@@ -1,0 +1,3 @@
+INDEX VERSION 1.126+C:\Users\Douglass\Documents\Repository of Eclipse workspaces\2014-USC-CareTaker-1\.metadata\.plugins\org.eclipse.jdt.core
+2737333536.index
+3397332635.index
