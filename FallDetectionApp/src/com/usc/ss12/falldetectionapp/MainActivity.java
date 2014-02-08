@@ -24,7 +24,6 @@ public class MainActivity extends Activity {
     }
     
     public void onSettingsButtonClick(View v) {
-    	Log.d("test", "Clicked settings button");
     	Intent settingsIntent = new Intent(this, SettingsActivity.class);
     	startActivity(settingsIntent);
     }
