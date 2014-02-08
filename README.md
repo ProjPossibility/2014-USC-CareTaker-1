@@ -13,8 +13,8 @@ Our application tackles the problem of an unattended aging user being unable to 
 
 
 ### Features
-Our design aims at contacting an emergency member under two conditions:
-1. If the user is unable to verify their condition after eight (8) minutes upon an immediate fall
+Our design aims at contacting an emergency member under two conditions: <br/>
+1. If the user is unable to verify their condition after eight (8) minutes upon an immediate fall <br/>
 2. If the phone was unintended for a user-set default number of hours
 
 **Fall Detection**
@@ -30,4 +30,3 @@ Our design aims at contacting an emergency member under two conditions:
 * 300 Seconds (Inactivity): Increase all alerts
 * 480 Seconds (Inactivity): Send picture, audio, and location data to contacts
     * Emergency contacts alerted
-
