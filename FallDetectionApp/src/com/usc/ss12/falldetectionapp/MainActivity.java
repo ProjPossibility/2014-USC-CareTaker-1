@@ -24,6 +24,12 @@ public class MainActivity extends Activity implements SensorEventListener {
     private final int MAX_RECORDS = 30;
     private int numRecords = 0;
     
+    private int pull_buffer_counter = 10;
+    private int pull_buffer = 1;
+    private int fall_buffer = 50;
+    private boolean isAYOActive = false;
+    
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +65,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 		mSensorY = event.values[1];
 		mSensorZ = event.values[2];
 		
+		
 		float accelValue = (mSensorX*mSensorX + mSensorY*mSensorY + mSensorZ*mSensorZ)
 				/ (SensorManager.GRAVITY_EARTH * SensorManager.GRAVITY_EARTH);
 		
@@ -68,7 +75,26 @@ public class MainActivity extends Activity implements SensorEventListener {
 			numRecords = 0;
 		}
 		
-		tv.setText(tv.getText() + "\n" + mSensorX + ' ' + mSensorY + ' ' + mSensorZ);
-		numRecords++;
+		if (pull_buffer_counter > pull_buffer){
+			pull_buffer_counter = 0;
+			//tv.setText(tv.getText() + "\n" + (int)mSensorX + ' ' + (int)mSensorY + ' ' + (int)mSensorZ);
+			int sensorMagnitude = Math.abs((int)( mSensorX*mSensorX + mSensorY*mSensorY + mSensorZ*mSensorZ - 98));
+			
+			
+			if (sensorMagnitude > fall_buffer){
+				
+				//Need to check if the "are you okay is already called"
+				if (!isAYOActive){
+					isAYOActive = true;
+					tv.setText(tv.getText() + "\n" + sensorMagnitude);
+					//Place code for "are you okay?" here
+					
+					
+					numRecords++; //Remove this line IF text of Accelerometer is different.
+				}
+			}	
+		}
+		pull_buffer_counter++;
+		
     }
 }
