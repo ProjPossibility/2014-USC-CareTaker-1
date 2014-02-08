@@ -2,6 +2,7 @@ package com.usc.ss12.falldetectionapp;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.KeyEvent;
 import java.util.Timer;
@@ -42,8 +43,10 @@ public class MainActivity extends Activity {
 		    	int to = 601;
 		    	Calendar c = Calendar.getInstance();
 		    	int t = c.get(Calendar.HOUR_OF_DAY) * 100 + c.get(Calendar.MINUTE);
-		    	if(t < from && t > to)
-		    		;//startActivity(); start warnings!
+		    	if(t < from && t > to) {
+		    		Intent notif = new Intent(this,Notification);
+		    		startActivity(notif);
+		    	}
 		    	else onKeyDown(-1,new KeyEvent(0,0)); //Resets timer if sleeping
 			}
 		};
