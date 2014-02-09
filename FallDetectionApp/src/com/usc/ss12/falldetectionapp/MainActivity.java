@@ -61,7 +61,6 @@ public class MainActivity extends Activity implements SensorEventListener {
         titleSettings.setBackground(getResources().getDrawable(R.drawable.title));
         
         buttonSettings = (Button) findViewById(R.id.buttonSettings);
-        //buttonSettings.setBackground(getResources().getDrawable(R.drawable.settingsc));
 
         isAYOActive = false;
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
