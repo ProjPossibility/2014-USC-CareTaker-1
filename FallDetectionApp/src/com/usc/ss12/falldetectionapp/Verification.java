@@ -22,6 +22,7 @@ public class Verification extends Activity {
 	boolean bright;
 	Uri notification;
 	Ringtone r;
+	Timer tim;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +34,7 @@ public class Verification extends Activity {
 		layoutParams = this.getWindow().getAttributes();
 		notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
 		r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-		final Timer tim = new Timer();
+		tim = new Timer();
 		
 		buttonYes = (Button) findViewById(R.id.buttonYes);
 		buttonYes.setOnClickListener(new OnClickListener() {           
@@ -91,6 +92,11 @@ public class Verification extends Activity {
 			}
 		};
 		tim.schedule(lvl1, 2000);
+	}
+	
+	@Override
+	public void onBackPressed() {
+	   // Swallow all back button presses
 	}
 	
 }
