@@ -60,7 +60,8 @@
             android:layout_toRightOf="@id/ViewColorPickerHelper"
             android:background="?android:attr/selectableItemBackground"
             android:text="@string/no"
-            android:textSize="56sp" />
+            android:textSize="56sp"
+            android:onClick:"sendAndCall" />
     </RelativeLayout>
 
 </RelativeLayout>

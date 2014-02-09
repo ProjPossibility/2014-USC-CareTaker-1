@@ -114,19 +114,7 @@ public class Verification extends Activity {
 				tim.cancel(); //Drop all alarms
 				r.stop();
 				//Contact emergency number
-				Contact c = loadContact();
-				
-				if (c != null) {
-					String number = c.cell;
-					String msg = "[SmartAlert] There's a good chance I might have fallen and am injured. Please help.";
-					
-					SmsManager man = SmsManager.getDefault();
-					man.sendTextMessage(number, null, msg, null, null);
-					
-		         	Intent callIntent = new Intent(Intent.ACTION_CALL);
-		         	callIntent.setData(Uri.parse("tel:" + c.cell));
-		         	startActivity(callIntent);
-				}
+				sendAndCall(null);
 				
 				tim.cancel();
 			}
@@ -190,6 +178,23 @@ public class Verification extends Activity {
 		}
 		
 		return contact;
+	}
+	
+	private void sendAndCall(View view) {
+		//Contact emergency number
+		Contact c = loadContact();
+		
+		if (c != null) {
+			String number = c.cell;
+			String msg = "[SmartAlert] There's a good chance I might have fallen and am injured. Please help.";
+			
+			SmsManager man = SmsManager.getDefault();
+			man.sendTextMessage(number, null, msg, null, null);
+			
+         	Intent callIntent = new Intent(Intent.ACTION_CALL);
+         	callIntent.setData(Uri.parse("tel:" + c.cell));
+         	startActivity(callIntent);
+		}
 	}
 	
 }
