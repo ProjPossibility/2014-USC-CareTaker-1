@@ -45,6 +45,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     private boolean isAYOActive;
     
     private Button buttonSettings;
+    private TextView titleSettings;
     
     
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -53,9 +54,11 @@ public class MainActivity extends Activity implements SensorEventListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        buttonSettings = (Button) findViewById(R.id.buttonSettings);
+        titleSettings = (TextView) findViewById(R.id.textFallDetectionStatus);
+        titleSettings.setBackground(getResources().getDrawable(R.drawable.title));
         
-        buttonSettings.setBackground(resize(getResources().getDrawable(R.drawable.settings), 10, 10));
+        buttonSettings = (Button) findViewById(R.id.buttonSettings);
+        buttonSettings.setBackground(getResources().getDrawable(R.drawable.settingsc));
 
         isAYOActive = false;
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
