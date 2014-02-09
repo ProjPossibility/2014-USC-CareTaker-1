@@ -17,8 +17,10 @@
 	    android:id="@+id/textFallDetectionStatus"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:layout_below="@+id/accelerometer_values"
+	    android:layout_above="@+id/buttonSettings"
 	    android:layout_centerHorizontal="true"
+	    android:layout_marginBottom="177dp"
+	    android:background="@drawable/title"
 	    android:gravity="center"
 	    android:textSize="46sp" />
 
@@ -28,6 +30,7 @@
 	    android:layout_height="wrap_content"
 	    android:layout_alignParentBottom="true"
 	    android:layout_centerHorizontal="true"
+	    android:layout_marginBottom="24dp"
 	    android:background="@drawable/csettings"
 	    android:onClick="onSettingsButtonClick" />
 

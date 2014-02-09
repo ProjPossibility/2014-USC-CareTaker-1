@@ -61,7 +61,7 @@
             android:background="?android:attr/selectableItemBackground"
             android:text="@string/no"
             android:textSize="54sp"
-            android:onClick="sendAndCall" />
+            android:onClick:"sendAndCall" />
     </RelativeLayout>
 
 </RelativeLayout>

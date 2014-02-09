@@ -198,7 +198,7 @@ public class Verification extends Activity {
 		return contact;
 	}
 	
-	public void sendAndCall(View view) {
+	private void sendAndCall(View view) {
 		//Contact emergency number
 		Contact c = loadContact();
 		
