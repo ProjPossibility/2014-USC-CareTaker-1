@@ -107,7 +107,9 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     public void onSettingsButtonClick(View v) {
     	Intent settingsIntent = new Intent(this, SettingsActivity.class);
+
     	Log.d("test", settingsIntent.toString());
+
     	startActivity(settingsIntent);
     }
     
