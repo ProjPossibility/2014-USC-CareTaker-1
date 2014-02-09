@@ -118,7 +118,7 @@ public class Verification extends Activity {
 				
 				if (c != null) {
 					String number = c.cell;
-					String msg = "[SmartAID Alert] There's a good chance I might have fallen and am injured. Please help.";
+					String msg = "[SmartAlert] There's a good chance I might have fallen and am injured. Please help.";
 					
 					SmsManager man = SmsManager.getDefault();
 					man.sendTextMessage(number, null, msg, null, null);

@@ -131,8 +131,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 		    	Calendar c = Calendar.getInstance();
 		    	int t = c.get(Calendar.HOUR_OF_DAY) * 100 + c.get(Calendar.MINUTE);
 		    	if(t < from && t > to) {
-		    		Intent notif = new Intent(MainActivity.this, Verification.class);
-		    		startActivity(notif);
+		    		//Intent notif = new Intent(MainActivity.this, Verification.class);
+		    		//startActivity(notif);
 		    	}
 		    	else onKeyDown(-1,new KeyEvent(0,0)); //Resets timer if sleeping
 			}
