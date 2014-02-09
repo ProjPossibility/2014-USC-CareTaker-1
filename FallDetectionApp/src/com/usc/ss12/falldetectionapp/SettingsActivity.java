@@ -7,10 +7,13 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -42,10 +45,12 @@ public class SettingsActivity extends Activity {
 		buttonSave.setOnClickListener(new OnClickListener() {           
 			@Override
 			public void onClick(View v) {
-				retrieveContactInfo();
-				saveContact();
-				Toast.makeText(SettingsActivity.this, "Contact Saved!", Toast.LENGTH_SHORT).show();
-				finish();
+				if (validateData()) {
+					retrieveContactInfo();
+					saveContact();
+					Toast.makeText(SettingsActivity.this, "Contact Saved!", Toast.LENGTH_SHORT).show();
+					finish();
+				}
 			}    
 		});
 		
@@ -63,7 +68,9 @@ public class SettingsActivity extends Activity {
 		// Text fields
 		textName = (EditText) findViewById(R.id.editTextName);
 		textCell = (EditText) findViewById(R.id.editTextCell);
+		textCell.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 		textPhone = (EditText) findViewById(R.id.editTextPhoneOptional);
+		textPhone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 		textEmail = (EditText) findViewById(R.id.editTextEmail);
 		
 		contact = new Contact();
@@ -203,6 +210,28 @@ public class SettingsActivity extends Activity {
 		textEmail.setCursorVisible(true);
 		textEmail.setClickable(true);
 		textEmail.setEnabled(true);
+	}
+	
+	private boolean validateData() {
+		return validateCell() && validateEmail();
+	}
+	
+	private boolean validateCell() {
+		return true;
+	}
+	
+	private boolean validateEmail() {
+		boolean isValid = false;
+
+	    String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+	    CharSequence inputStr = textEmail.getText().toString();
+
+	    Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+	    Matcher matcher = pattern.matcher(inputStr);
+	    if (matcher.matches()) {
+	        isValid = true;
+	    }
+	    return isValid;
 	}
 
 }
