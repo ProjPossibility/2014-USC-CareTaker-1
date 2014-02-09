@@ -139,7 +139,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 		if(currRecordInd == 0)
 			tv.setText("");
 		
-		//tv.setText(tv.getText() + "   " + accel_count);
+		tv.setText(tv.getText() + "   " + accel_count);
 		
 		// 4) check if accel_count threshold is met, if so switch activity
 		if(accel_count >= NUM_FALL_THRESHOLD) {

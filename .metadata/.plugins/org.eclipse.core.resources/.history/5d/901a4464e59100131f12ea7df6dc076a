@@ -147,9 +147,6 @@ public class Verification extends Activity {
 		lvl1 = new TimerTask() { //After 180 seconds, set off alarm/flash/vibrate
 			public void run()
 			{
-				
-				AudioManager aman = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-				aman.setStreamVolume(r.getStreamType(),aman.getStreamMaxVolume(r.getStreamType())/2,AudioManager.FLAG_PLAY_SOUND);
 				r.play();
 				tim.schedule(flash1,750,750);
 				tim.schedule(lvl2,4000);
@@ -159,6 +156,8 @@ public class Verification extends Activity {
 		wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "wake");
 		wl.acquire();
 		tim.schedule(lvl1, 2000);
+		
+		
 	}
 	
 	@Override
