@@ -301,3 +301,6 @@ Binding(ALT+SHIFT+ARROW_LEFT,
 
 !ENTRY com.android.ide.eclipse.adt 2 0 2014-02-08 12:50:21.215
 !MESSAGE activity_main.xml: "@dimen/font" in attribute "textSize" is not a valid format.
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2014-02-08 22:02:43.781
+!MESSAGE fileChanged: failed to find manifest package for project FallDetectionApp

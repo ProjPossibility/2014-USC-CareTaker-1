@@ -35,18 +35,22 @@ public class MainActivity extends Activity implements SensorEventListener {
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     
-    private Display mDisplay;
-    private final int MAX_RECORDS = 30;
-    private int numRecords = 0;
+    private final int MAX_RECORDS = 50;
+    private int currRecordInd;
+    private int accel_count;
+    private double threshhold;
+    private boolean cycle;
+    
+    private int[] accel_data;
+    private int[] accel_diff;
     
     private int pull_buffer_counter = 10;
-    private int pull_buffer = 1;
-    private int fall_buffer = 50;
+    private int pull_buffer = 0;
+    //private double fall_buffer = 50;
     private boolean isAYOActive;
     
     private Button buttonSettings;
     private TextView titleSettings;
-    
     
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	@Override
@@ -63,7 +67,6 @@ public class MainActivity extends Activity implements SensorEventListener {
         isAYOActive = false;
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mDisplay = getWindowManager().getDefaultDisplay();
     }
     
     private Drawable resize(Drawable image, int paramX, int paramY) {
@@ -74,11 +77,11 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     protected void onResume() {
         super.onResume();
-        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
         isAYOActive = false;
         TextView tv = (TextView) findViewById(R.id.accelerometer_values);
         tv.setText("");
-		numRecords = 0;
+		currRecordInd = 0;
     }
 
     protected void onPause() {
@@ -90,46 +93,46 @@ public class MainActivity extends Activity implements SensorEventListener {
     }
 
     public void onSensorChanged(SensorEvent event) {
+    	
 		if (event.sensor.getType() != Sensor.TYPE_ACCELEROMETER)
 			return;
-		float mSensorX, mSensorY, mSensorZ;
 		
-		mSensorX = event.values[0];
-		mSensorY = event.values[1];
-		mSensorZ = event.values[2];
-		
+		float mSensorX = event.values[0];
+		float mSensorY = event.values[1];
+		float mSensorZ = event.values[2];
 		
 		float accelValue = (mSensorX*mSensorX + mSensorY*mSensorY + mSensorZ*mSensorZ)
 				/ (SensorManager.GRAVITY_EARTH * SensorManager.GRAVITY_EARTH);
 		
-		TextView tv = (TextView) findViewById(R.id.accelerometer_values);
-		if(numRecords >= MAX_RECORDS) {
-			tv.setText("");
-			numRecords = 0;
-		}
+		// TextView tv = (TextView) findViewById(R.id.accelerometer_values);
 		
-		if (pull_buffer_counter > pull_buffer){
+		if (pull_buffer_counter > pull_buffer) {
 			pull_buffer_counter = 0;
-			//tv.setText(tv.getText() + "\n" + (int)mSensorX + ' ' + (int)mSensorY + ' ' + (int)mSensorZ);
-			int sensorMagnitude = Math.abs((int)( mSensorX*mSensorX + mSensorY*mSensorY + mSensorZ*mSensorZ - 98));
+			float sensorMagnitude = mSensorX*mSensorX + mSensorY*mSensorY + mSensorZ*mSensorZ
+					/ (SensorManager.GRAVITY_EARTH * SensorManager.GRAVITY_EARTH);
 			
-			
-			if (sensorMagnitude > fall_buffer){
+			if (sensorMagnitude > threshhold) {
+				
+				
 				
 				//Need to check if the "are you okay is already called"
 				if (!isAYOActive){
 					isAYOActive = true;
-					tv.setText(tv.getText() + "\n" + sensorMagnitude);
-					//Place code for "are you okay?" here
+					// tv.setText(tv.getText() + "\n" + sensorMagnitude);
 					Intent verification = new Intent(this, Verification.class);
 			    	startActivity(verification);
-					
-					numRecords++; //Remove this line IF text of Accelerometer is different.
+					currRecordInd++; //Remove this line IF text of Accelerometer is different.
 				}
+				
+				
 			}	
 		}
-		pull_buffer_counter++;
 		
+		else {
+			
+		}
+		
+		pull_buffer_counter++;
     }
 
     public void onSettingsButtonClick(View v) {  	
