@@ -37,7 +37,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     private final int MAX_RECORDS = 200;
     private final int NUM_FALL_THRESHOLD = 16;
     private final double FALL_MAG_THRESHOLD = 35;
-    private final int REST_THRESHOLD = 20;
+    private final int REST_THRESHOLD = 40;
 
     private int currRecordInd;
     private int accel_count; // fall occurs if accel_count >= NUM_ACCEL_THRESHOLD
