@@ -213,11 +213,43 @@ public class SettingsActivity extends Activity {
 	}
 	
 	private boolean validateData() {
-		return validateCell() && validateEmail();
+		if (textName.getText().toString().equals("")) {
+			Toast.makeText(SettingsActivity.this, "Please enter a Contact Name.", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		
+		if (!validateCell(textCell.getText().toString())) {
+			Toast.makeText(SettingsActivity.this, "Please enter a valid Cell phone number.", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		
+		if (!textPhone.getText().toString().equals("")) {
+			if (!validateCell(textPhone.getText().toString())) {
+				Toast.makeText(SettingsActivity.this, "Please enter a valid Optional Phone number (or remove it).", Toast.LENGTH_SHORT).show();
+				return false;
+			}
+		}
+		
+		if (!validateEmail()) {
+			Toast.makeText(SettingsActivity.this, "Please enter a valid email address.", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		
+		return true;
 	}
 	
-	private boolean validateCell() {
-		return true;
+	private boolean validateCell(String c) {
+		boolean isValid = false;
+
+	    String expression = "^(?:(?:(\\s*\\(?([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\\s*)|([2-9]1[02-9]|[9][02-8]1|[2-9][02-8][02-9]))\\)?\\s*(?:[.-]\\s*)?)([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\\s*(?:[.-]\\s*)?([0-9]{4})$";
+	    CharSequence inputStr = c;
+
+	    Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+	    Matcher matcher = pattern.matcher(inputStr);
+	    if (matcher.matches()) {
+	        isValid = true;
+	    }
+	    return isValid;
 	}
 	
 	private boolean validateEmail() {
