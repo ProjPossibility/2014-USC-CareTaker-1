@@ -36,16 +36,17 @@ public class MainActivity extends Activity implements SensorEventListener {
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     
-    private final int MAX_RECORDS = 100;
-    private final int NUM_ACCEL_THRESHOLD = 4;
-    private final double DIFF_THRESHOLD = 10;
-    
+    private final int MAX_RECORDS = 50;
+    private final int NUM_FALL_THRESHOLD = 2;
+    //private final double DIFF_THRESHOLD = 14;
+    private final double FALL_THRESHOLD = 5;
+
     private int currRecordInd;
     private int accel_count; // fall occurs if accel_count >= NUM_ACCEL_THRESHOLD
     private boolean cycle;
     
     private float[] accel_data;
-    private float[] accel_diff;
+    //private float[] accel_diff;
     
     private boolean isAYOActive;
     
@@ -89,7 +90,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	    cycle = false;
 	    
 	    accel_data = new float[MAX_RECORDS];
-	    accel_diff = new float[MAX_RECORDS];
+	    // accel_diff = new float[MAX_RECORDS];
     }
 
     protected void onPause() {
@@ -109,48 +110,43 @@ public class MainActivity extends Activity implements SensorEventListener {
 		float mSensorY = event.values[1];
 		float mSensorZ = event.values[2];
 		
+		// for debugging
 		TextView tv = (TextView) findViewById(R.id.accelerometer_values);
 		
 		// big loop for checking threshold begins here
 		
-		// 1) enter new accelerometer reading
+		// 1) get new accelerometer reading
 		float accelValue = mSensorX*mSensorX + mSensorY*mSensorY + mSensorZ*mSensorZ;
-		accel_data[currRecordInd] = accelValue;
 		
-		float accelValueDiff = 0;
 		// 2) record accelerometer difference, then increment currRecordInd
-		if(currRecordInd != 0 || cycle) { // if not the very first record
-			accel_diff[currRecordInd]
-					= accelValueDiff = accel_data[currRecordInd] - accel_data[(currRecordInd + MAX_RECORDS - 1) % MAX_RECORDS];
+		if(currRecordInd != 0) { // if not the very first record
 			
 			// 3) update accel_count
 			// check if in cycle, and if so if existing record is above or below DIFF_THRESHOLD as well
-			boolean newRecordTap = accelValueDiff > DIFF_THRESHOLD;
+			boolean newRecordTap = accelValue < FALL_THRESHOLD;
+			boolean oldRecordTap = accel_data[currRecordInd] < FALL_THRESHOLD;
 			if (newRecordTap) {
-				boolean oldRecordTap = accel_diff[currRecordInd] > DIFF_THRESHOLD;
+				//boolean oldRecordTap = accel_diff[(currRecordInd + MAX_RECORDS - 1) % MAX_RECORDS] < FALL_THRESHOLD;
 				if(!oldRecordTap || !cycle) {
 					accel_count++;
 				}
 			}
 			else {
-				boolean oldRecordTap = accel_diff[currRecordInd] > DIFF_THRESHOLD;
+				//boolean oldRecordTap = accel_diff[(currRecordInd + MAX_RECORDS - 1) % MAX_RECORDS] < FALL_THRESHOLD;
 				if(oldRecordTap && cycle) {
 					accel_count--;
 				}
 			}
 		}
+		accel_data[currRecordInd] = accelValue;
 		currRecordInd = (currRecordInd + 1) % MAX_RECORDS;
-
-		// 4) check if cycle occurred
-		if(currRecordInd == 0)
-			cycle = true;
 		
 		if(currRecordInd == 0)
 			tv.setText("");
-		tv.setText(tv.getText() + "\n" + accel_count + "      " + accelValue + "      " + accelValueDiff);
+		tv.setText(tv.getText() + "\n" + accel_count + "     " + currRecordInd + "     " + accelValue);
 		
-		// 5) check if accel_count threshold is met, if so switch activity
-		if(accel_count >= NUM_ACCEL_THRESHOLD) {
+		// 4) check if accel_count threshold is met, if so switch activity
+		if(accel_count >= NUM_FALL_THRESHOLD) {
 			//Need to check if the "are you okay is already called"
 			if (!isAYOActive){
 				isAYOActive = true;
