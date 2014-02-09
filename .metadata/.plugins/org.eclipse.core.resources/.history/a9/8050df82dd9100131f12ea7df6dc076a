@@ -59,12 +59,19 @@ public class MainActivity extends Activity implements SensorEventListener {
         setContentView(R.layout.activity_main);
         
         titleSettings = (TextView) findViewById(R.id.textFallDetectionStatus);
+        //titleSettings.setBackground(getResources().getDrawable(R.drawable.title));
         
         buttonSettings = (Button) findViewById(R.id.buttonSettings);
 
         isAYOActive = false;
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+    }
+    
+    private Drawable resize(Drawable image, int paramX, int paramY) {
+        Bitmap b = ((BitmapDrawable)image).getBitmap();
+        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, paramX, paramY, false);
+        return new BitmapDrawable(getResources(), bitmapResized);
     }
 
     protected void onResume() {
@@ -82,6 +89,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	    idle_count = 0;
 	    
 	    accel_data = new float[MAX_RECORDS];
+	    // accel_diff = new float[MAX_RECORDS];
     }
 
     protected void onPause() {
@@ -139,7 +147,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 		if(currRecordInd == 0)
 			tv.setText("");
 		
-		tv.setText(tv.getText() + "   " + accel_count);
+		tv.setText(tv.getText() + "   " + );
 		
 		// 4) check if accel_count threshold is met, if so switch activity
 		if(accel_count >= NUM_FALL_THRESHOLD) {
