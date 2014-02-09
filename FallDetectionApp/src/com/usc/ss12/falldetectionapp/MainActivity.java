@@ -5,23 +5,21 @@
 
 package com.usc.ss12.falldetectionapp;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.util.Log;
-import android.view.Menu;
-import android.view.View;
-import android.view.KeyEvent;
+import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.Calendar;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
-import android.view.Menu;
+import android.view.KeyEvent;
+import android.view.View;
 import android.widget.TextView;
 
 public class MainActivity extends Activity implements SensorEventListener {
@@ -50,9 +48,6 @@ public class MainActivity extends Activity implements SensorEventListener {
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mDisplay = getWindowManager().getDefaultDisplay();
-    }
-
-    public MainActivity() {
     }
 
     protected void onResume() {
@@ -112,8 +107,10 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     public void onSettingsButtonClick(View v) {
     	Intent settingsIntent = new Intent(this, SettingsActivity.class);
+    	Log.d("test", settingsIntent.toString());
     	startActivity(settingsIntent);
     }
+    
     @Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) //Whenever anything is pressed
 	{
