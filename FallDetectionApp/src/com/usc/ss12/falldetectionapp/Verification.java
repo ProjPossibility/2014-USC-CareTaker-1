@@ -10,6 +10,11 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
+import android.provider.Settings;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -22,6 +27,32 @@ public class Verification extends Activity {
 	boolean bright;
 	Uri notification;
 	Ringtone r;
+	
+	PowerManager.WakeLock wl;
+	
+	private final Handler handler = new Handler() {
+		 
+        public void handleMessage(Message msg) {
+             
+            int aResponse = msg.getData().getInt("message");
+
+            if ((aResponse == 1)) {
+            	layoutParams.screenBrightness = (bright ? 0F : 0.7F); //-1 = default, 0F = min, 1F = full
+				//Verification.this.getWindow().setAttributes(layoutParams);
+				Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
+				getWindow().setAttributes(layoutParams);
+            }else
+            
+            if ((aResponse == 2)){
+            	layoutParams.screenBrightness = (bright ? 0F : 1F); //-1 = default, 0F = min, 1F = full
+				//Verification.this.getWindow().setAttributes(layoutParams);
+				Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
+				getWindow().setAttributes(layoutParams);
+            }
+
+        }
+    };
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +70,7 @@ public class Verification extends Activity {
 		buttonYes.setOnClickListener(new OnClickListener() {           
 			@Override
 			public void onClick(View v) {
+				wl.release();
 				r.stop();
 				tim.cancel();
 				finish();
@@ -50,16 +82,22 @@ public class Verification extends Activity {
 		final TimerTask flash1 = new TimerTask() {
 			public void run()
 			{
-				layoutParams.screenBrightness = (bright ? 0F : 0.7F); //-1 = default, 0F = min, 1F = full
-				//Verification.this.getWindow().setAttributes(layoutParams);
+				Message msgObj = handler.obtainMessage();
+                Bundle b = new Bundle();
+                b.putInt("message", 1);
+                msgObj.setData(b);
+                handler.sendMessage(msgObj);
 				bright = !bright;
 			}
 		};
 		final TimerTask flash2 = new TimerTask() {
 			public void run()
 			{
-				layoutParams.screenBrightness = (bright ? 0F : 1F); //-1 = default, 0F = min, 1F = full
-				//Verification.this.getWindow().setAttributes(layoutParams);
+				Message msgObj = handler.obtainMessage();
+                Bundle b = new Bundle();
+                b.putInt("message", 2);
+                msgObj.setData(b);
+                handler.sendMessage(msgObj);
 				bright = !bright;
 			}
 		};
@@ -90,6 +128,9 @@ public class Verification extends Activity {
 				tim.schedule(lvl2,4000);
 			}
 		};
+		PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+		 wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "wake");
+		 wl.acquire();
 		tim.schedule(lvl1, 2000);
 	}
 	
