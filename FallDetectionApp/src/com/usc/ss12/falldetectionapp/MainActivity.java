@@ -1,6 +1,10 @@
+/* 
+ * Sensor detection code based on:
+ * http://stackoverflow.com/a/1016941/555544
+ */
+
 package com.usc.ss12.falldetectionapp;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
@@ -11,25 +15,101 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Calendar;
 
-public class MainActivity extends Activity {
-	
-	private Timer checkImmobile = new Timer();
-    private TimerTask ok;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.os.Bundle;
+import android.view.Display;
+import android.view.Menu;
+import android.widget.TextView;
 
+public class MainActivity extends Activity implements SensorEventListener {
+
+	private Timer checkImmobile = new Timer();
+	private TimerTask ok;
+
+    private SensorManager mSensorManager;
+    private Sensor mAccelerometer;
+    
+    private Display mDisplay;
+    private final int MAX_RECORDS = 30;
+    private int numRecords = 0;
+    
+    private int pull_buffer_counter = 10;
+    private int pull_buffer = 1;
+    private int fall_buffer = 50;
+    private boolean isAYOActive = false;
+    
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mDisplay = getWindowManager().getDefaultDisplay();
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+    public MainActivity() {
     }
-    
+
+    protected void onResume() {
+        super.onResume();
+        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    protected void onPause() {
+        super.onPause();
+    }
+
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    	
+    }
+
+    public void onSensorChanged(SensorEvent event) {
+		if (event.sensor.getType() != Sensor.TYPE_ACCELEROMETER)
+			return;
+		float mSensorX, mSensorY, mSensorZ;
+		
+		mSensorX = event.values[0];
+		mSensorY = event.values[1];
+		mSensorZ = event.values[2];
+		
+		
+		float accelValue = (mSensorX*mSensorX + mSensorY*mSensorY + mSensorZ*mSensorZ)
+				/ (SensorManager.GRAVITY_EARTH * SensorManager.GRAVITY_EARTH);
+		
+		TextView tv = (TextView) findViewById(R.id.accelerometer_values);
+		if(numRecords >= MAX_RECORDS) {
+			tv.setText("");
+			numRecords = 0;
+		}
+		
+		if (pull_buffer_counter > pull_buffer){
+			pull_buffer_counter = 0;
+			//tv.setText(tv.getText() + "\n" + (int)mSensorX + ' ' + (int)mSensorY + ' ' + (int)mSensorZ);
+			int sensorMagnitude = Math.abs((int)( mSensorX*mSensorX + mSensorY*mSensorY + mSensorZ*mSensorZ - 98));
+			
+			
+			if (sensorMagnitude > fall_buffer){
+				
+				//Need to check if the "are you okay is already called"
+				if (!isAYOActive){
+					isAYOActive = true;
+					tv.setText(tv.getText() + "\n" + sensorMagnitude);
+					//Place code for "are you okay?" here
+					
+					
+					numRecords++; //Remove this line IF text of Accelerometer is different.
+				}
+			}	
+		}
+		pull_buffer_counter++;
+		
+    }
+
     public void onSettingsButtonClick(View v) {
     	Intent settingsIntent = new Intent(this, SettingsActivity.class);
     	startActivity(settingsIntent);
