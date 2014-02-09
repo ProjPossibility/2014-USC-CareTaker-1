@@ -111,10 +111,8 @@ public class Verification extends Activity {
 		final TimerTask lvl2 = new TimerTask() { //After 300 seconds, increase alarm intensity
 			public void run()
 			{
-				r.stop();
 				AudioManager aman = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
 				aman.setStreamVolume(r.getStreamType(),aman.getStreamMaxVolume(r.getStreamType()),AudioManager.FLAG_PLAY_SOUND);
-				r.play();
 				flash1.cancel();
 				tim.schedule(flash2,500,500);
 				tim.schedule(lvl3,180000);
