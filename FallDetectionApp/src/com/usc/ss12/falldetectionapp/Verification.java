@@ -37,15 +37,13 @@ public class Verification extends Activity {
             int aResponse = msg.getData().getInt("message");
 
             if ((aResponse == 1)) {
-            	layoutParams.screenBrightness = (bright ? 0F : 0.7F); //-1 = default, 0F = min, 1F = full
-				//Verification.this.getWindow().setAttributes(layoutParams);
+            	layoutParams.screenBrightness = (bright ? 0.1F : 0.7F); //-1 = default, 0F = min, 1F = full
 				Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
 				getWindow().setAttributes(layoutParams);
             }else
             
             if ((aResponse == 2)){
-            	layoutParams.screenBrightness = (bright ? 0F : 1F); //-1 = default, 0F = min, 1F = full
-				//Verification.this.getWindow().setAttributes(layoutParams);
+            	layoutParams.screenBrightness = (bright ? 0.1F : 1F); //-1 = default, 0F = min, 1F = full
 				Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
 				getWindow().setAttributes(layoutParams);
             }
@@ -106,6 +104,7 @@ public class Verification extends Activity {
 			{
 				tim.cancel(); //Drop all alarms
 				//Call emergency contact
+				
 			}
 		};
 		final TimerTask lvl2 = new TimerTask() { //After 300 seconds, increase alarm intensity
@@ -117,7 +116,7 @@ public class Verification extends Activity {
 				r.play();
 				flash1.cancel();
 				tim.schedule(flash2,500,500);
-				tim.schedule(lvl3,180000);
+				tim.schedule(lvl3,6000);
 			}
 		};
 		final TimerTask lvl1 = new TimerTask() { //After 180 seconds, set off alarm/flash/vibrate
