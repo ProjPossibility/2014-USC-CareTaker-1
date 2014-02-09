@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    
+
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="18" />
@@ -27,6 +27,10 @@
         <activity
             android:name="com.usc.ss12.falldetectionapp.SettingsActivity"
             android:label="@string/title_activity_settings" >
+        </activity>
+        <activity
+            android:name="com.usc.ss12.falldetectionapp.Verification"
+            android:label="@string/title_activity_verification" >
         </activity>
     </application>
 

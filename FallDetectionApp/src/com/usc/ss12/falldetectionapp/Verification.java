@@ -1,24 +1,19 @@
 package com.usc.ss12.falldetectionapp;
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
-
-import android.net.Uri;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.media.AudioManager;
-import android.view.WindowManager;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class VerificationActivity extends Activity{
+import android.app.Activity;
+import android.content.Context;
+import android.media.AudioManager;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Bundle;
+import android.view.WindowManager;
+import android.widget.Button;
+
+public class Verification extends Activity{
 	private Button buttonYes;
 	private Button buttonNo;
 	WindowManager.LayoutParams layoutParams;

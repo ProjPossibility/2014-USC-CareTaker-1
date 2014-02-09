@@ -10,5 +10,7 @@
     <string name="save">Save</string>
     <string name="edit">Edit</string>
     <string name="back">Back</string>
+    <string name="title_activity_verification">Verification</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>
