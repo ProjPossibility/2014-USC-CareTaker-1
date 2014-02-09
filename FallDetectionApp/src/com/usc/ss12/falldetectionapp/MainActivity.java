@@ -21,8 +21,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Display;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -63,7 +61,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         titleSettings.setBackground(getResources().getDrawable(R.drawable.title));
         
         buttonSettings = (Button) findViewById(R.id.buttonSettings);
-        buttonSettings.setBackground(getResources().getDrawable(R.drawable.settingsc));
+        //buttonSettings.setBackground(getResources().getDrawable(R.drawable.settingsc));
 
         isAYOActive = false;
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);

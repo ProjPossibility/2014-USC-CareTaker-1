@@ -8,17 +8,6 @@
     android:theme="@style/NoActionBar"
     tools:context=".MainActivity" >
 
-    <Button
-        android:id="@+id/buttonSettings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"
-        android:onClick="onSettingsButtonClick"
-        android:text=" "
-        android:textSize="34sp" />
-
 	<TextView
         android:id="@+id/accelerometer_values"
         android:layout_width="wrap_content"
@@ -32,7 +21,15 @@
 	    android:layout_below="@+id/accelerometer_values"
 	    android:layout_centerHorizontal="true"
 	    android:gravity="center"
-	    android:text=" "
 	    android:textSize="46sp" />
+
+	<Button
+	    android:id="@+id/buttonSettings"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true"
+	    android:layout_centerHorizontal="true"
+	    android:background="@drawable/csettings"
+	    android:onClick="onSettingsButtonClick" />
 
 </RelativeLayout>
