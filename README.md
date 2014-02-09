@@ -13,8 +13,8 @@ Our application tackles the problem of an unattended aging user being unable to 
 
 ### Features
 * Our design aims at contacting an emergency member under two conditions: <br/>
-1. If the user is unable to verify their condition after eight (8) minutes upon an immediate fall <br/>
-2. If the phone is left unintended for a user-set number of hours
+	1. If the user is unable to verify their condition after eight (8) minutes upon an immediate fall <br/>
+	2. If the phone is left unintended for a user-set number of hours
 <br/>
 * Utilizes simple large words and recognizable color-coded icons for the elderly. 
 
