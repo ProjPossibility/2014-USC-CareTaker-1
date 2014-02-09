@@ -23,6 +23,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -135,7 +136,42 @@ public class MainActivity extends Activity implements SensorEventListener {
     }
     
     @Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) //Whenever anything is pressed
+    public boolean dispatchTouchEvent(MotionEvent event) { //Whenever ANYTHING is pressed!
+
+    	if(ok != null)
+    		ok.cancel();
+    	
+    	ok = new TimerTask()
+    	{
+			public void run()
+			{
+				int from = 100;
+		    	int to = 601;
+		    	Calendar c = Calendar.getInstance();
+		    	int t = c.get(Calendar.HOUR_OF_DAY) * 100 + c.get(Calendar.MINUTE);
+		    	if(t < from && t > to) {
+		    		Intent notif = new Intent(MainActivity.this, Verification.class);
+		    		startActivity(notif);
+		    	}
+		    	else onTouchEvent(null); //Resets timer if sleeping
+			}
+		};
+		if(event == null) { //If sleeping, sets timer to 10:00am
+			Calendar c = Calendar.getInstance();
+			c.set(Calendar.HOUR_OF_DAY, 10);
+			c.set(Calendar.MINUTE,0);
+			c.set(Calendar.SECOND,0);
+			checkImmobile.schedule(ok,c.getTime());	
+		}
+		else checkImmobile.schedule(ok,14400000); //4 Hours == 14400000
+		
+
+    	return super.dispatchTouchEvent(event);  //Allows event to continue propagating
+    }
+    
+    /*
+    @Override
+	public boolean onTouchEvent(MotionEvent event) //Whenever anything is pressed
 	{
     	if(ok != null)
     		ok.cancel();
@@ -152,10 +188,10 @@ public class MainActivity extends Activity implements SensorEventListener {
 		    		//Intent notif = new Intent(MainActivity.this, Verification.class);
 		    		//startActivity(notif);
 		    	}
-		    	else onKeyDown(-1,new KeyEvent(0,0)); //Resets timer if sleeping
+		    	else onTouchEvent(null); //Resets timer if sleeping
 			}
 		};
-		if(keyCode == -1) { //If sleeping, sets timer to 10:00am
+		if(event == null) { //If sleeping, sets timer to 10:00am
 			Calendar c = Calendar.getInstance();
 			c.set(Calendar.HOUR_OF_DAY, 10);
 			c.set(Calendar.MINUTE,0);
@@ -165,4 +201,5 @@ public class MainActivity extends Activity implements SensorEventListener {
 		else checkImmobile.schedule(ok,5000); //4 Hours == 14400000
 		return false; //Allows event to continue propagating
 	}
+	*/
 }
