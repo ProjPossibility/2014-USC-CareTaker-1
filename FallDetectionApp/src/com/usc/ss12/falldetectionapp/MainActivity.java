@@ -177,7 +177,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 		    		Intent notif = new Intent(MainActivity.this, Verification.class);
 		    		startActivity(notif);
 		    	}
-		    	else onTouchEvent(null); //Resets timer if sleeping
+		    	else dispatchTouchEvent(null); //Resets timer if sleeping
 			}
 		};
 		if(event == null) { //If sleeping, sets timer to 10:00am
