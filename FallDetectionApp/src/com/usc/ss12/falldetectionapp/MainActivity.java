@@ -59,19 +59,12 @@ public class MainActivity extends Activity implements SensorEventListener {
         setContentView(R.layout.activity_main);
         
         titleSettings = (TextView) findViewById(R.id.textFallDetectionStatus);
-        //titleSettings.setBackground(getResources().getDrawable(R.drawable.title));
         
         buttonSettings = (Button) findViewById(R.id.buttonSettings);
 
         isAYOActive = false;
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-    }
-    
-    private Drawable resize(Drawable image, int paramX, int paramY) {
-        Bitmap b = ((BitmapDrawable)image).getBitmap();
-        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, paramX, paramY, false);
-        return new BitmapDrawable(getResources(), bitmapResized);
     }
 
     protected void onResume() {

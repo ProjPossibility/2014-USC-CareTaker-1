@@ -154,8 +154,8 @@ public class Verification extends Activity {
 			}
 		};
 		PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-		 wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "wake");
-		 wl.acquire();
+		wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "wake");
+		wl.acquire();
 		tim.schedule(lvl1, 2000);
 		
 		
@@ -204,8 +204,10 @@ public class Verification extends Activity {
 		
 		if (c != null) {
 			String number = c.cell;
-			String msg = "[SmartAlert] There's a good chance I might have fallen and am injured. Please help.";
-			
+			Time now = new Time();
+			now.setToNow();
+			String msg = "[SmartAlert]\n(" + now.format("%D, %R") + ")\nThere's a good chance I might have fallen and am injured. Please help.";
+
 			SmsManager man = SmsManager.getDefault();
 			man.sendTextMessage(number, null, msg, null, null);
 			
