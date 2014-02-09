@@ -6,9 +6,7 @@
 package com.usc.ss12.falldetectionapp;
 
 import android.hardware.Sensor;
-import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
-import android.view.Surface;
 
 public class AccelerometerReader {
 	
