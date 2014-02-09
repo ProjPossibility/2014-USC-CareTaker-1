@@ -87,7 +87,7 @@ public class Verification extends Activity {
 			{
 				r.play();
 				tim.schedule(flash1,500,500);
-				tim.schedule(lvl2,120000);
+				tim.schedule(lvl2,4000);
 			}
 		};
 		tim.schedule(lvl1, 2000);
