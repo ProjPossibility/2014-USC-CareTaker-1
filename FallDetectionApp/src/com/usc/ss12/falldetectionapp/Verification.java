@@ -33,7 +33,13 @@ public class Verification extends Activity {
 	boolean bright;
 	Uri notification;
 	Ringtone r;
+	
 	Timer tim;
+	TimerTask flash1;
+	TimerTask flash2;
+	TimerTask lvl1;
+	TimerTask lvl2;
+	TimerTask lvl3;
 	
 	private final String contactFileName = "contact.txt";
 	
@@ -85,8 +91,15 @@ public class Verification extends Activity {
 		});
 		
 		buttonNo = (Button) findViewById(R.id.buttonNo);
+		buttonNo.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				lvl3.run();
+			}
+		});
 		
-		final TimerTask flash1 = new TimerTask() {
+		
+		flash1 = new TimerTask() {
 			public void run()
 			{
 				Message msgObj = handler.obtainMessage();
@@ -97,7 +110,7 @@ public class Verification extends Activity {
 				bright = !bright;
 			}
 		};
-		final TimerTask flash2 = new TimerTask() {
+		flash2 = new TimerTask() {
 			public void run()
 			{
 				Message msgObj = handler.obtainMessage();
@@ -108,9 +121,10 @@ public class Verification extends Activity {
 				bright = !bright;
 			}
 		};
-		final TimerTask lvl3 = new TimerTask() { //After 480 seconds, call emergency contact
+		lvl3 = new TimerTask() { //After 480 seconds, call emergency contact
 			public void run()
 			{
+				wl.release();
 				tim.cancel(); //Drop all alarms
 				r.stop();
 				//Contact emergency number
@@ -127,11 +141,10 @@ public class Verification extends Activity {
 		         	callIntent.setData(Uri.parse("tel:" + c.cell));
 		         	startActivity(callIntent);
 				}
-				
-				tim.cancel();
+				finish();
 			}
 		};
-		final TimerTask lvl2 = new TimerTask() { //After 300 seconds, increase alarm intensity
+		lvl2 = new TimerTask() { //After 300 seconds, increase alarm intensity
 			public void run()
 			{
 				AudioManager aman = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
@@ -141,7 +154,7 @@ public class Verification extends Activity {
 				tim.schedule(lvl3,6000);
 			}
 		};
-		final TimerTask lvl1 = new TimerTask() { //After 180 seconds, set off alarm/flash/vibrate
+		lvl1 = new TimerTask() { //After 180 seconds, set off alarm/flash/vibrate
 			public void run()
 			{
 				r.play();
@@ -153,6 +166,8 @@ public class Verification extends Activity {
 		 wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "wake");
 		 wl.acquire();
 		tim.schedule(lvl1, 2000);
+		
+		
 	}
 	
 	@Override
