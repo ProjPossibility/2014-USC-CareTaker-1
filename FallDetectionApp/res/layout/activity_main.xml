@@ -8,30 +8,31 @@
     android:theme="@style/NoActionBar"
     tools:context=".MainActivity" >
 
-    <TextView
-        android:id="@+id/textFallDetectionStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/fall_detection_active"
-        android:gravity="center"
-        android:textSize="46sp" />
-
     <Button
         android:id="@+id/buttonSettings"
-        android:onClick="onSettingsButtonClick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="30dp"
-        android:text="@string/settings"
+        android:onClick="onSettingsButtonClick"
+        android:text=" "
         android:textSize="34sp" />
+
 	<TextView
         android:id="@+id/accelerometer_values"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/font_test_accel_values"/>
+
+	<TextView
+	    android:id="@+id/textFallDetectionStatus"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/accelerometer_values"
+	    android:layout_centerHorizontal="true"
+	    android:gravity="center"
+	    android:text=" "
+	    android:textSize="46sp" />
 
 </RelativeLayout>
