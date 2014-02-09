@@ -37,17 +37,16 @@ public class MainActivity extends Activity implements SensorEventListener {
     private Sensor mAccelerometer;
     
     private final int MAX_RECORDS = 50;
+    private final int NUM_ACCEL_THRESHOLD = 4;
+    private final double DIFF_THRESHOLD = 4.5;
+    
     private int currRecordInd;
-    private int accel_count;
-    private double threshhold;
+    private int accel_count; // fall occurs if 
     private boolean cycle;
     
-    private int[] accel_data;
-    private int[] accel_diff;
+    private float[] accel_data;
+    private float[] accel_diff;
     
-    private int pull_buffer_counter = 10;
-    private int pull_buffer = 0;
-    //private double fall_buffer = 50;
     private boolean isAYOActive;
     
     private Button buttonSettings;
@@ -78,11 +77,19 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     protected void onResume() {
         super.onResume();
+        
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
         isAYOActive = false;
+        
         TextView tv = (TextView) findViewById(R.id.accelerometer_values);
         tv.setText("");
+		
 		currRecordInd = 0;
+	    accel_count = 0;
+	    cycle = false;
+	    
+	    accel_data = new float[MAX_RECORDS];
+	    accel_diff = new float[MAX_RECORDS];
     }
 
     protected void onPause() {
@@ -90,7 +97,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     }
 
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-    	
+    	// leave this method empty, don't delete (required for implementing interface)
     }
 
     public void onSensorChanged(SensorEvent event) {
@@ -102,38 +109,49 @@ public class MainActivity extends Activity implements SensorEventListener {
 		float mSensorY = event.values[1];
 		float mSensorZ = event.values[2];
 		
-		float accelValue = (mSensorX*mSensorX + mSensorY*mSensorY + mSensorZ*mSensorZ)
-				/ (SensorManager.GRAVITY_EARTH * SensorManager.GRAVITY_EARTH);
-		
 		// TextView tv = (TextView) findViewById(R.id.accelerometer_values);
 		
-		if (pull_buffer_counter > pull_buffer) {
-			pull_buffer_counter = 0;
-			float sensorMagnitude = mSensorX*mSensorX + mSensorY*mSensorY + mSensorZ*mSensorZ
-					/ (SensorManager.GRAVITY_EARTH * SensorManager.GRAVITY_EARTH);
-			
-			if (sensorMagnitude > threshhold) {
-				
-				
-				
-				//Need to check if the "are you okay is already called"
-				if (!isAYOActive){
-					isAYOActive = true;
-					// tv.setText(tv.getText() + "\n" + sensorMagnitude);
-					Intent verification = new Intent(this, Verification.class);
-			    	startActivity(verification);
-					currRecordInd++; //Remove this line IF text of Accelerometer is different.
-				}
-				
-				
-			}	
+		// big loop for checking threshold begins here
+		
+		// 1) enter new accelerometer reading
+		float accelValue = mSensorX*mSensorX + mSensorY*mSensorY + mSensorZ*mSensorZ
+				/ (SensorManager.GRAVITY_EARTH * SensorManager.GRAVITY_EARTH);
+		accel_data[currRecordInd] = accelValue;
+		
+		// 2) record accelerometer difference, then increment currRecordInd
+		if(currRecordInd != 0 || cycle) { // if not the very first record
+			accel_diff[currRecordInd - 1] = accel_data[currRecordInd] - accel_data[currRecordInd - 1]; 
 		}
+		currRecordInd = (currRecordInd + 1) % MAX_RECORDS;
+
+		// 2b) check if cycle occurred
+		if(currRecordInd == 0)
+			cycle = true;
+		
+		
+		// 3) update accel_count
+		float accelValueDiff = accelValue - accel_data[(currRecordInd + MAX_RECORDS - 1) % MAX_RECORDS];		
+		if (accelValueDiff > DIFF_THRESHOLD) {
+			//Need to check if the "are you okay is already called"
+			
+			
+			
+		}	
 		
 		else {
 			
 		}
 		
-		pull_buffer_counter++;
+		// 4) check if accel_count threshold is met, if so switch activity
+		if(accel_count >= NUM_ACCEL_THRESHOLD) {
+			if (!isAYOActive){
+				isAYOActive = true;
+				// tv.setText(tv.getText() + "\n" + sensorMagnitude);
+				Intent verification = new Intent(this, Verification.class);
+		    	startActivity(verification);
+				currRecordInd++; //Remove this line IF text of Accelerometer is different.
+			}
+		}
     }
 
     public void onSettingsButtonClick(View v) {  	
