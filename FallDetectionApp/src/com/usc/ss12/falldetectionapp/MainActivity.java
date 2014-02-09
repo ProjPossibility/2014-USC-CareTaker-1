@@ -99,7 +99,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 					isAYOActive = true;
 					tv.setText(tv.getText() + "\n" + sensorMagnitude);
 					//Place code for "are you okay?" here
-					
+					Intent verification = new Intent(this, Verification.class);
+			    	startActivity(verification);
 					
 					numRecords++; //Remove this line IF text of Accelerometer is different.
 				}

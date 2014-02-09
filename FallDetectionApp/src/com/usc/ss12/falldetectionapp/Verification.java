@@ -10,39 +10,57 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
 
-public class Verification extends Activity{
+public class Verification extends Activity {
 	private Button buttonYes;
 	private Button buttonNo;
 	WindowManager.LayoutParams layoutParams;
-	boolean bright = false;
-	Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-	Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+	boolean bright;
+	Uri notification;
+	Ringtone r;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_verification);
 		
+		bright = false;
 		
-		
-		
+		layoutParams = this.getWindow().getAttributes();
+		notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+		r = RingtoneManager.getRingtone(getApplicationContext(), notification);
 		final Timer tim = new Timer();
+		
+		buttonYes = (Button) findViewById(R.id.buttonYes);
+		buttonYes.setOnClickListener(new OnClickListener() {           
+			@Override
+			public void onClick(View v) {
+				r.stop();
+				tim.cancel();
+				finish();
+			}    
+		});
+		
+		buttonNo = (Button) findViewById(R.id.buttonNo);
+		
 		final TimerTask flash1 = new TimerTask() {
 			public void run()
 			{
-				layoutParams.screenBrightness= (bright ? 0F : .7F); //-1 = default, 0F = min, 1F = full
-				getWindow().setAttributes(layoutParams);
-				bright = (bright ? false : true);
+				layoutParams.screenBrightness = (bright ? 0F : 0.7F); //-1 = default, 0F = min, 1F = full
+				//Verification.this.getWindow().setAttributes(layoutParams);
+				bright = !bright;
 			}
 		};
 		final TimerTask flash2 = new TimerTask() {
 			public void run()
 			{
-				layoutParams.screenBrightness= (bright ? 0F : 1F); //-1 = default, 0F = min, 1F = full
-				getWindow().setAttributes(layoutParams);
-				bright = (bright ? false : true);
+				layoutParams.screenBrightness = (bright ? 0F : 1F); //-1 = default, 0F = min, 1F = full
+				//Verification.this.getWindow().setAttributes(layoutParams);
+				bright = !bright;
 			}
 		};
 		final TimerTask lvl3 = new TimerTask() { //After 480 seconds, call emergency contact
@@ -72,7 +90,7 @@ public class Verification extends Activity{
 				tim.schedule(lvl2,120000);
 			}
 		};
-		tim.schedule(lvl1, 180000); 
+		tim.schedule(lvl1, 2000);
 	}
 	
 }
