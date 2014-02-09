@@ -1,10 +1,16 @@
 package com.usc.ss12.falldetectionapp;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -14,6 +20,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.PowerManager;
 import android.provider.Settings;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -27,6 +34,8 @@ public class Verification extends Activity {
 	Uri notification;
 	Ringtone r;
 	Timer tim;
+	
+	private final String contactFileName = "contact.txt";
 	
 	PowerManager.WakeLock wl;
 	
@@ -103,8 +112,23 @@ public class Verification extends Activity {
 			public void run()
 			{
 				tim.cancel(); //Drop all alarms
-				//Call emergency contact
+				r.stop();
+				//Contact emergency number
+				Contact c = loadContact();
 				
+				if (c != null) {
+					String number = c.cell;
+					String msg = "[SmartAID Alert] There's a good chance I might have fallen and am injured. Please help.";
+					
+					SmsManager man = SmsManager.getDefault();
+					man.sendTextMessage(number, null, msg, null, null);
+					
+		         	Intent callIntent = new Intent(Intent.ACTION_CALL);
+		         	callIntent.setData(Uri.parse("tel:" + c.cell));
+		         	startActivity(callIntent);
+				}
+				
+				tim.cancel();
 			}
 		};
 		final TimerTask lvl2 = new TimerTask() { //After 300 seconds, increase alarm intensity
@@ -134,6 +158,38 @@ public class Verification extends Activity {
 	@Override
 	public void onBackPressed() {
 	   // Swallow all back button presses
+	}
+	
+	private Contact loadContact() {
+		Contact contact = new Contact();
+		
+		InputStream in = null;
+		InputStreamReader isr = null;
+		BufferedReader br = null;
+		
+		try {
+			in = new BufferedInputStream(openFileInput(this.contactFileName));
+			isr = new InputStreamReader(in);
+			br = new BufferedReader(isr);
+			
+			contact.name = br.readLine();
+			contact.cell = br.readLine();
+			contact.phoneOther = br.readLine();
+			contact.email = br.readLine();
+			
+			br.close();
+			isr.close();
+			in.close();
+		} catch(FileNotFoundException e) {
+			// will happen until user creates their emergency contact for the first time
+			e.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		return contact;
 	}
 	
 }

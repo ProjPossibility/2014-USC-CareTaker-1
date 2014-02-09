@@ -16,6 +16,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.View;
@@ -110,12 +111,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 		
     }
 
-    public void onSettingsButtonClick(View v) {
-    	// CODE TO INITIATE A PHONE CALL FOR USE SOMEWHERE ELSE
-    	/*Intent callIntent = new Intent(Intent.ACTION_CALL);
-    	callIntent.setData(Uri.parse("tel:1231231234"));
-    	startActivity(callIntent);*/
-    	
+    public void onSettingsButtonClick(View v) {  	
     	Intent settingsIntent = new Intent(this, SettingsActivity.class);
     	startActivity(settingsIntent);
     }
@@ -148,7 +144,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 			c.set(Calendar.SECOND,0);
 			checkImmobile.schedule(ok,c.getTime());	
 		}
-		else checkImmobile.schedule(ok,14400000); //4 Hours == 14400000
+		else checkImmobile.schedule(ok,5000); //4 Hours == 14400000
 		return false; //Allows event to continue propagating
 	}
 }
