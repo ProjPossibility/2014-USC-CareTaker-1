@@ -9,17 +9,22 @@ import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends Activity implements SensorEventListener {
@@ -39,16 +44,29 @@ public class MainActivity extends Activity implements SensorEventListener {
     private int fall_buffer = 50;
     private boolean isAYOActive;
     
+    private Button buttonSettings;
     
-    @Override
+    
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        buttonSettings = (Button) findViewById(R.id.buttonSettings);
+        
+        buttonSettings.setBackground(resize(getResources().getDrawable(R.drawable.settings), 10, 10));
 
         isAYOActive = false;
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mDisplay = getWindowManager().getDefaultDisplay();
+    }
+    
+    private Drawable resize(Drawable image, int paramX, int paramY) {
+        Bitmap b = ((BitmapDrawable)image).getBitmap();
+        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, paramX, paramY, false);
+        return new BitmapDrawable(getResources(), bitmapResized);
     }
 
     protected void onResume() {
