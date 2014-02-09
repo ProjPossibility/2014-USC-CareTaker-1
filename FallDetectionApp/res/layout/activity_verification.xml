@@ -8,61 +8,49 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Verification" >
 
-    <TextView
-        android:id="@+id/textAreYouOkay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="109dp"
-        android:gravity="center"
-        android:text="@string/are_you_ok"
-        android:textSize="40sp" />
-
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_alignParentBottom="true" >
+        android:layout_alignParentBottom="true"
+        style="?android:attr/buttonBarStyle" >
 
-        <View
+        <!-- <View
             android:layout_width="match_parent"
             android:layout_height="1dip"
             android:layout_marginLeft="4dip"
             android:layout_marginRight="4dip"
-            android:background="?android:attr/dividerVertical"
-            android:layout_alignParentTop="true"/>
+            android:background="?android:attr/dividerVertical" />
         <View
             android:id="@+id/buttons"
             android:layout_width="1dip"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentBottom="true"
             android:layout_marginBottom="4dip"
             android:layout_marginTop="4dip"
-            android:background="?android:attr/dividerVertical" 
-            android:layout_centerHorizontal="true"/>
+            android:background="?android:attr/dividerVertical" /> -->
 
         <Button
             android:id="@+id/buttonYes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?android:attr/selectableItemBackground"
-            android:text="@android:string/yes"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@id/buttons"
-            android:layout_alignParentBottom="true" />
+            style="?android:attr/borderlessButtonStyle"
+            android:text="@android:string/yes" />
 
         <Button
             android:id="@+id/buttonNo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?android:attr/selectableItemBackground"
-            android:text="@android:string/no" 
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentBottom="true" 
-            android:layout_toRightOf="@id/buttons" />
-    </RelativeLayout>
+            style="?android:attr/borderlessButtonStyle"
+            android:text="@android:string/no" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textAreYouOkay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:text="@string/are_you_ok"
+        android:textSize="40sp" />
 
 </RelativeLayout>
