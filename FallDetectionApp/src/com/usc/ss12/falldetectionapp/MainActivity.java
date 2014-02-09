@@ -16,7 +16,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.View;
@@ -37,7 +36,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     private int pull_buffer_counter = 10;
     private int pull_buffer = 1;
     private int fall_buffer = 50;
-    private boolean isAYOActive = false;
+    private boolean isAYOActive;
     
     
     @Override
@@ -45,6 +44,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        isAYOActive = false;
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mDisplay = getWindowManager().getDefaultDisplay();
@@ -53,6 +53,10 @@ public class MainActivity extends Activity implements SensorEventListener {
     protected void onResume() {
         super.onResume();
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        isAYOActive = false;
+        TextView tv = (TextView) findViewById(R.id.accelerometer_values);
+        tv.setText("");
+		numRecords = 0;
     }
 
     protected void onPause() {
@@ -106,10 +110,12 @@ public class MainActivity extends Activity implements SensorEventListener {
     }
 
     public void onSettingsButtonClick(View v) {
+    	// CODE TO INITIATE A PHONE CALL FOR USE SOMEWHERE ELSE
+    	/*Intent callIntent = new Intent(Intent.ACTION_CALL);
+    	callIntent.setData(Uri.parse("tel:1231231234"));
+    	startActivity(callIntent);*/
+    	
     	Intent settingsIntent = new Intent(this, SettingsActivity.class);
-
-    	Log.d("test", settingsIntent.toString());
-
     	startActivity(settingsIntent);
     }
     
