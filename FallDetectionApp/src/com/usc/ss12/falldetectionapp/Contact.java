@@ -9,7 +9,6 @@ public class Contact {
 	public Contact() {
 		name = "Temp";
 		cell = "(777) 333-4444";
-		phoneOther = "(777) 333-4444";
 		email = "test@testmail.com";
 	}
 }

@@ -58,7 +58,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         setContentView(R.layout.activity_main);
         
         titleSettings = (TextView) findViewById(R.id.textFallDetectionStatus);
-        titleSettings.setBackground(getResources().getDrawable(R.drawable.title));
+        //titleSettings.setBackground(getResources().getDrawable(R.drawable.title));
         
         buttonSettings = (Button) findViewById(R.id.buttonSettings);
 
@@ -140,7 +140,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 		
 		if(currRecordInd == 0)
 			tv.setText("");
-		tv.setText(tv.getText() + "\n" + accel_count + "     " + currRecordInd + "     " + accelValue);
+		//tv.setText(tv.getText() + "\n" + accel_count + "     " + currRecordInd + "     " + accelValue);
 		
 		// 4) check if accel_count threshold is met, if so switch activity
 		if(accel_count >= NUM_FALL_THRESHOLD) {

@@ -21,6 +21,7 @@ import android.os.Message;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.telephony.SmsManager;
+import android.text.format.Time;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -118,7 +119,9 @@ public class Verification extends Activity {
 				
 				if (c != null) {
 					String number = c.cell;
-					String msg = "[SmartAlert] There's a good chance I might have fallen and am injured. Please help.";
+					Time now = new Time();
+					now.setToNow();
+					String msg = "[SmartAlert]\n(" + now.format("%D, %R") + ")\nThere's a good chance I might have fallen and am injured. Please help.";
 					
 					SmsManager man = SmsManager.getDefault();
 					man.sendTextMessage(number, null, msg, null, null);

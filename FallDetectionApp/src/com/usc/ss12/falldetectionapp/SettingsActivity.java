@@ -33,7 +33,6 @@ public class SettingsActivity extends Activity {
 	// Text fields
 	private EditText textName;
 	private EditText textCell;
-	private EditText textPhone;
 	private EditText textEmail;
 	
 	@Override
@@ -69,8 +68,6 @@ public class SettingsActivity extends Activity {
 		textName = (EditText) findViewById(R.id.editTextName);
 		textCell = (EditText) findViewById(R.id.editTextCell);
 		textCell.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
-		textPhone = (EditText) findViewById(R.id.editTextPhoneOptional);
-		textPhone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 		textEmail = (EditText) findViewById(R.id.editTextEmail);
 		
 		contact = new Contact();
@@ -105,7 +102,6 @@ public class SettingsActivity extends Activity {
 			
 			this.contact.name = br.readLine();
 			this.contact.cell = br.readLine();
-			this.contact.phoneOther = br.readLine();
 			this.contact.email = br.readLine();
 			
 			br.close();
@@ -133,7 +129,6 @@ public class SettingsActivity extends Activity {
 		  
 		  osw.write(this.contact.name + "\n");
 		  osw.write(this.contact.cell + "\n");
-		  osw.write(this.contact.phoneOther + "\n");
 		  osw.write(this.contact.email + "\n");
 		  
 		  osw.close();
@@ -148,14 +143,12 @@ public class SettingsActivity extends Activity {
 	private void retrieveContactInfo() {
 		contact.name = textName.getText().toString();
 		contact.cell = textCell.getText().toString();
-		contact.phoneOther = textPhone.getText().toString();
 		contact.email = textEmail.getText().toString();
 	}
 	
 	private void populateContactInfo() {
 		textName.setText(contact.name);
 		textCell.setText(contact.cell);
-		textPhone.setText(contact.phoneOther);
 		textEmail.setText(contact.email);
 	}
 	
@@ -171,12 +164,6 @@ public class SettingsActivity extends Activity {
 		textCell.setCursorVisible(false);
 		textCell.setClickable(false);
 		textCell.setEnabled(false);
-		
-		textPhone.setFocusable(false);
-		textPhone.setFocusableInTouchMode(false);
-		textPhone.setCursorVisible(false);
-		textPhone.setClickable(false);
-		textPhone.setEnabled(false);
 		
 		textEmail.setFocusable(false);
 		textEmail.setFocusableInTouchMode(false);
@@ -199,12 +186,6 @@ public class SettingsActivity extends Activity {
 		textCell.setClickable(true);
 		textCell.setEnabled(true);
 		
-		textPhone.setFocusable(true);
-		textPhone.setFocusableInTouchMode(true);
-		textPhone.setCursorVisible(true);
-		textPhone.setClickable(true);
-		textPhone.setEnabled(true);
-		
 		textEmail.setFocusable(true);
 		textEmail.setFocusableInTouchMode(true);
 		textEmail.setCursorVisible(true);
@@ -221,13 +202,6 @@ public class SettingsActivity extends Activity {
 		if (!validateCell(textCell.getText().toString())) {
 			Toast.makeText(SettingsActivity.this, "Please enter a valid Cell phone number.", Toast.LENGTH_SHORT).show();
 			return false;
-		}
-		
-		if (!textPhone.getText().toString().equals("")) {
-			if (!validateCell(textPhone.getText().toString())) {
-				Toast.makeText(SettingsActivity.this, "Please enter a valid Optional Phone number (or remove it).", Toast.LENGTH_SHORT).show();
-				return false;
-			}
 		}
 		
 		if (!validateEmail()) {
