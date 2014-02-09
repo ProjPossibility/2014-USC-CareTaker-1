@@ -136,8 +136,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 					accel_count--;
 				}
 				idle_count++;
-				if(idle_count >= REST_THRESHOLD)
-					accel_count = Math.max(0, accel_count - 2);
+				if(idle_count == REST_THRESHOLD)
+					accel_count = 0;
 			}
 		}
 		accel_data[currRecordInd] = accelValue;
