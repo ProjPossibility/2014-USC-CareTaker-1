@@ -89,6 +89,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	    idle_count = 0;
 	    
 	    accel_data = new float[MAX_RECORDS];
+	    // accel_diff = new float[MAX_RECORDS];
     }
 
     protected void onPause() {

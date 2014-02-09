@@ -89,6 +89,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	    idle_count = 0;
 	    
 	    accel_data = new float[MAX_RECORDS];
+	    // accel_diff = new float[MAX_RECORDS];
     }
 
     protected void onPause() {
@@ -146,7 +147,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 		if(currRecordInd == 0)
 			tv.setText("");
 		
-		tv.setText(tv.getText() + "   " + accel_count);
+		tv.setText(tv.getText() + "   " + );
 		
 		// 4) check if accel_count threshold is met, if so switch activity
 		if(accel_count >= NUM_FALL_THRESHOLD) {

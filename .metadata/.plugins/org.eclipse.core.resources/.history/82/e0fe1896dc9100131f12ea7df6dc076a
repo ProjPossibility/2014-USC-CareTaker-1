@@ -36,7 +36,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     
     private final int MAX_RECORDS = 200;
     private final int NUM_FALL_THRESHOLD = 18;
-    private final double FALL_MAG_THRESHOLD = 35;
+    private final double FALL_MAG_THRESHOLD = 30;
     private final int REST_THRESHOLD = 40;
 
     private int currRecordInd;
@@ -89,6 +89,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	    idle_count = 0;
 	    
 	    accel_data = new float[MAX_RECORDS];
+	    // accel_diff = new float[MAX_RECORDS];
     }
 
     protected void onPause() {
@@ -146,7 +147,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 		if(currRecordInd == 0)
 			tv.setText("");
 		
-		tv.setText(tv.getText() + "   " + accel_count);
+		tv.setText(tv.getText() + "   " + accelValue);
 		
 		// 4) check if accel_count threshold is met, if so switch activity
 		if(accel_count >= NUM_FALL_THRESHOLD) {
