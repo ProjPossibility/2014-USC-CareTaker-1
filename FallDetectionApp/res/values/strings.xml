@@ -11,6 +11,8 @@
     <string name="edit">Edit</string>
     <string name="back">Back</string>
     <string name="title_activity_verification">Verification</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="are_you_ok">Are you okay?</string>
 
 </resources>
