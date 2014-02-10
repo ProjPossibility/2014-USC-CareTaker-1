@@ -1,4 +1,4 @@
-SmartAlert
+SmartFall
 ====================
 **Application Flow Programmer:** Matthew Pohlmann <br/>
 **Accelerometer Programmer**: Douglass Chen, Brian Chen <br/>
