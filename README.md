@@ -1,4 +1,4 @@
-SmartFall
+SmartFall [![Status](https://rawgit.com/bryan/bryan.github.io/master/images/inactive.svg)](#)
 ====================
 **Application Flow Programmer:** Matthew Pohlmann <br/>
 **Accelerometer Programmer**: Douglass Chen, Brian Chen <br/>
